@@ -11,7 +11,7 @@ namespace VandelayIndustries.ViewModels
     public class TransactionCreateViewModel
     {
         private DataContext db;
-        //public Transaction Transaction { get; set; }
+        public DateTime? Date { get; set; }
         public IEnumerable<SelectListItem> Buyers { get; set; }
         public IEnumerable<SelectListItem> Items { get; set; }
         public IEnumerable<SelectListItem> Sellers { get; set; }
@@ -26,13 +26,11 @@ namespace VandelayIndustries.ViewModels
 
         public TransactionCreateViewModel()
         {
-            //db = new DataContext();
-            //CreateModel();
+
         }
 
         private void CreateModel()
         {
-            //Transaction = new Transaction();
 
             Buyers = db.Buyers.Select(p => new SelectListItem()
             {
