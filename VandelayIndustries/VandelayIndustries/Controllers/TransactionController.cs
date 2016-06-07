@@ -52,20 +52,27 @@ namespace VandelayIndustries.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Date,BuyerId,SellerId,SalesPersonId")] Transaction transaction)
+        //public ActionResult Create([Bind(Include = "Date,BuyerId,SellerId,SalesPersonId")] Transaction transaction)
+        public string Create(TransactionAddModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Transactions.Add(transaction);
+                var newTransaction = new Transaction();
+                newTransaction.Buyer = db.Buyers.Find(model.Buyer);
+                newTransaction.Seller = db.Sellers.Find(model.Seller);
+                newTransaction.SalesPerson = db.SalesPersons.Find(model.SalesPerson);
+                newTransaction.Date = model.Date;
+                foreach (var item in model.Items)
+                {
+                    newTransaction.Items.Add(db.Items.Find(item));
+                }
+
+                db.Transactions.Add(newTransaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return "good";
             }
 
-            ViewBag.Id = new SelectList(db.Buyers, "Id", "Name", transaction.Id);
-            ViewBag.Id = new SelectList(db.SalesPersons, "Id", "Name", transaction.Id);
-            ViewBag.Id = new SelectList(db.Sellers, "Id", "Name", transaction.Id);
-            return View(transaction);
+            return "bad";
         }
 
         // GET: Transaction/Edit/5

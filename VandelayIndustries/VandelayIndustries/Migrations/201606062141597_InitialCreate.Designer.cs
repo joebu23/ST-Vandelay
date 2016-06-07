@@ -13,7 +13,7 @@ namespace VandelayIndustries.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201606060028368_InitialCreate"; }
+            get { return "201606062141597_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

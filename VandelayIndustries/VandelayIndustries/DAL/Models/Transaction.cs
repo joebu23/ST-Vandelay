@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -18,21 +19,22 @@ namespace VandelayIndustries.DAL.Models
         public int Id { get; set; }
 
         [Column(TypeName = "datetime2")]
+        [Required]
         public DateTime Date { get; set; }
 
-        [ForeignKey("Id")]
-        public Buyer Buyer { get; set; }
-
+        [Required]
+        public virtual Buyer Buyer { get; set; }
         public int BuyerId { get; set; }
 
-        [ForeignKey("Id")]
-        public Seller Seller { get; set; }
+        [Required]
+        public virtual Seller Seller { get; set; }
         public int SellerId { get; set; }
 
-        public virtual ICollection<Item> Items { get; set; }
+        [Required]
+        public ICollection<Item> Items { get; set; }
 
-        [ForeignKey("Id")]
-        public SalesPerson SalesPerson { get; set; }
+        [Required]
+        public virtual SalesPerson SalesPerson { get; set; }
         public int SalesPersonId { get; set; }
     }
 }

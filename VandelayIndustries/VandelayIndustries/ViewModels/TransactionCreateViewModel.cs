@@ -31,7 +31,7 @@ namespace VandelayIndustries.ViewModels
 
         private void CreateModel()
         {
-
+            
             Buyers = db.Buyers.Select(p => new SelectListItem()
             {
                 Text = p.Name,
