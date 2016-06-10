@@ -11,60 +11,45 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Buyer.Name)
+            Date
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Buyer.Name)
+            @Model.Date.ToShortDateString()
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SalesPerson.Name)
+            Buyer
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SalesPerson.Name)
+            @Model.Buyer.Name
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Seller.Name)
+            Seller
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Seller.Name)
+            @Model.Seller.Name
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            Sales Person
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Date)
+            @Model.SalesPerson.Name
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BuyerId)
+            Items
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.BuyerId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SellerId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SellerId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SalesPersonId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SalesPersonId)
-        </dd>
+        @foreach (var item in Model.Items)
+        {
+            <dd>@item.Description</dd>
+        }
 
     </dl>
 </div>

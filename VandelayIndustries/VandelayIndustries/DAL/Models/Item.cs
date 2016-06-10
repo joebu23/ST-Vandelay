@@ -11,7 +11,7 @@ namespace VandelayIndustries.DAL.Models
     {
         public Item()
         {
-            this.Transactions = new HashSet<Transaction>();    
+            this.Transactions = new HashSet<Transaction>();
         }
 
         public int Id { get; set; }

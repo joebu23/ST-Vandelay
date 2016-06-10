@@ -7,6 +7,7 @@ namespace VandelayIndustries.ViewModels
 {
     public class TransactionAddModel
     {
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public int Seller { get; set; }
         public int Buyer { get; set; }

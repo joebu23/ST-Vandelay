@@ -12,25 +12,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Buyer.Name)
+            Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SalesPerson.Name)
+            Buyer
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Seller.Name)
+            Seller
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            Sales Person
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BuyerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SellerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SalesPersonId)
+            Items
         </th>
         <th></th>
     </tr>
@@ -38,25 +32,22 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Buyer.Name)
+            @item.Date.ToShortDateString()
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SalesPerson.Name)
+            @Html.DisplayFor(modelItem => item.Buyer.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Seller.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Date)
+            @Html.DisplayFor(modelItem => item.SalesPerson.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.BuyerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SellerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SalesPersonId)
+            @foreach (var listItem in item.Items)
+            {
+            @Html.DisplayFor(modelItem => listItem.Description)<br />
+            }
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

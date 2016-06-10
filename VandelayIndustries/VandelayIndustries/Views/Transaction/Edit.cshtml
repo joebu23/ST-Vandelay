@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
+    var date = Model.Date.ToShortDateString();
 }
 
 <h2>Edit</h2>
@@ -10,7 +11,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Transaction</h4>
         <hr />
@@ -18,41 +19,53 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Date:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(m => m.Date, new { @Value = Model.Date.ToString(" MM/dd/yyyy"), @class = "form-control datepicker" })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BuyerId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Buyer:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BuyerId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("BuyerId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BuyerId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SellerId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Seller:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SellerId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("SellerId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SellerId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SalesPersonId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Sales Person:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SalesPersonId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("SalesPersonId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SalesPersonId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <label class="control-label col-md-2">Items:</label>
+            <div class="col-md-10" onchange="ItemAddEdit()">
+                @Html.DropDownList("Items", null, " -- Add New Item --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Items, "", new { @class = "text-danger" })
             </div>
+            <div id="item-list">
+                @foreach (var item in ViewBag.SelectedItems)
+                {
+                    <div Value="@item.Id">@item.Description<span class="glyphicon glyphicon-minus-sign" style="padding-left: 5px;" onclick="RemoveItem(@item.Id)"></span></div>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-offset-2 col-md-2">
+            <a href="#" class="btn btn-default" onclick="EditTransaction()">Update</a>
         </div>
     </div>
 }

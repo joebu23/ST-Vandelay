@@ -19,7 +19,7 @@ namespace VandelayIndustries.Controllers
         // GET: Transaction
         public ActionResult Index()
         {
-            var transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller);
+            var transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller).Include(t => t.Items);
             return View(transactions.ToList());
         }
 
@@ -30,7 +30,10 @@ namespace VandelayIndustries.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Transaction transaction = db.Transactions.Find(id);
+            var transactions = db.Transactions.Include(t => t.Items);
+
+            Transaction transaction = transactions.Where(p => p.Id == id).Single();
+
             if (transaction == null)
             {
                 return HttpNotFound();
@@ -41,18 +44,21 @@ namespace VandelayIndustries.Controllers
         // GET: Transaction/Create
         public ActionResult Create()
         {
-            var model = new TransactionCreateViewModel(db);
-            //ViewBag.Id = new SelectList(db.Buyers, "Id", "Name");
-            //ViewBag.Id = new SelectList(db.SalesPersons, "Id", "Name");
-            //ViewBag.Id = new SelectList(db.Sellers, "Id", "Name");
-            return View(model);
+            ViewBag.BuyerId = new SelectList(db.Buyers, "Id", "Name");
+            ViewBag.SalesPersonId = new SelectList(db.SalesPersons, "Id", "Name");
+            ViewBag.SellerId = new SelectList(db.Sellers, "Id", "Name");
+
+            ViewBag.ItemId = new SelectList(db.Items, "Id", "Description");
+
+            
+            
+            return View();
         }
 
         // POST: Transaction/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        //public ActionResult Create([Bind(Include = "Date,BuyerId,SellerId,SalesPersonId")] Transaction transaction)
         public string Create(TransactionAddModel model)
         {
             if (ModelState.IsValid)
@@ -82,34 +88,58 @@ namespace VandelayIndustries.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Transaction transaction = db.Transactions.Find(id);
+            id = Convert.ToInt32(id);
+
+            Transaction transaction = db.Transactions.Include(t => t.Items).Where(p => p.Id == id).SingleOrDefault();
             if (transaction == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Buyers, "Id", "Name", transaction.Id);
-            ViewBag.Id = new SelectList(db.SalesPersons, "Id", "Name", transaction.Id);
-            ViewBag.Id = new SelectList(db.Sellers, "Id", "Name", transaction.Id);
+
+            ViewBag.BuyerId = new SelectList(db.Buyers, "Id", "Name", transaction.BuyerId);
+            ViewBag.SalesPersonId = new SelectList(db.SalesPersons, "Id", "Name", transaction.SalesPersonId);
+            ViewBag.SellerId = new SelectList(db.Sellers, "Id", "Name", transaction.SellerId);
+            ViewBag.Items = new SelectList(db.Items, "Id", "Description");
+
+            var selectedItems = new List<Item>();
+
+            foreach (var item in transaction.Items)
+            {
+                selectedItems.Add(item);
+            }
+
+            ViewBag.SelectedItems = selectedItems;
+
             return View(transaction);
         }
 
         // POST: Transaction/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,BuyerId,SellerId,SalesPersonId")] Transaction transaction)
+        public string Edit(TransactionAddModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(transaction).State = EntityState.Modified;
+                var transaction = db.Transactions.Find(model.Id);
+
+                db.Transactions.Remove(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                transaction = new Transaction();
+                transaction.Buyer = db.Buyers.Find(model.Buyer);
+                transaction.Seller = db.Sellers.Find(model.Seller);
+                transaction.SalesPerson = db.SalesPersons.Find(model.SalesPerson);
+                transaction.Date = model.Date;
+
+                foreach (var item in model.Items)
+                {
+                    transaction.Items.Add(db.Items.Find(item));
+                }
+
+                db.Transactions.Add(transaction);
+                db.SaveChanges();
+                return "good";
             }
-            ViewBag.Id = new SelectList(db.Buyers, "Id", "Name", transaction.Id);
-            ViewBag.Id = new SelectList(db.SalesPersons, "Id", "Name", transaction.Id);
-            ViewBag.Id = new SelectList(db.Sellers, "Id", "Name", transaction.Id);
-            return View(transaction);
+            return "bad";
         }
 
         // GET: Transaction/Delete/5
