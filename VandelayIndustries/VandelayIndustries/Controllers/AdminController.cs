@@ -37,8 +37,6 @@ namespace VandelayIndustries.Controllers
             var model = new AdminIndexPageViewModel(db);
             model.Transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller).Include(t => t.Items).ToList();
 
-
-
             return View(model);
         }
 
@@ -98,7 +96,7 @@ namespace VandelayIndustries.Controllers
                     var line = reader.ReadLine();
                     var values = line.Split(',');
 
-                    switch (values[0])
+                    switch (values[0].ToLower())
                     {
                         case "seller":
                             var newSeller = new Seller

@@ -48,11 +48,7 @@ namespace VandelayIndustries.Controllers
             ViewBag.BuyerId = new SelectList(db.Buyers, "Id", "Name");
             ViewBag.SalesPersonId = new SelectList(db.SalesPersons, "Id", "Name");
             ViewBag.SellerId = new SelectList(db.Sellers, "Id", "Name");
-
             ViewBag.ItemId = new SelectList(db.Items, "Id", "Description");
-
-            
-            
             return View();
         }
 
