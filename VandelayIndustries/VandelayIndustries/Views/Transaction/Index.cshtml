@@ -10,51 +10,66 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            Date
-        </th>
-        <th>
-            Buyer
-        </th>
-        <th>
-            Seller
-        </th>
-        <th>
-            Sales Person
-        </th>
-        <th>
-            Items
-        </th>
-        <th></th>
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Buyer
+            </th>
+            <th>
+                Seller
+            </th>
+            <th>
+                Sales Person
+            </th>
+            <th>
+                Items
+            </th>
+            <th>
+                Total Shipping Weight
+            </th>
+            <th>
+                Total Charges
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Buyer.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Seller.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalesPerson.Name)
+                </td>
+                <td>
+                    @foreach (var listItem in item.Items)
+                    {
+                        @Html.DisplayFor(modelItem => listItem.Description)<br />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCharges)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @item.Date.ToShortDateString()
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Buyer.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Seller.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SalesPerson.Name)
-        </td>
-        <td>
-            @foreach (var listItem in item.Items)
-            {
-            @Html.DisplayFor(modelItem => listItem.Description)<br />
-            }
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+        }
+    </tbody>
 </table>

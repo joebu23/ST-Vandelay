@@ -33,5 +33,31 @@ namespace VandelayIndustries.DAL.Models
 
         [Required]
         public virtual SalesPerson SalesPerson { get; set; }
+
+        public decimal TotalCharges
+        {
+            get
+            {
+                decimal total = 0.0m;
+                foreach(var item in Items)
+                {
+                    total += item.Price;
+                }
+                return total;
+            }
+        }
+
+        public float TotalWeight
+        {
+            get
+            {
+                float total = 0.0f;
+                foreach(var item in Items)
+                {
+                    total += item.Weight;
+                }
+                return total;
+            }
+        }
     }
 }

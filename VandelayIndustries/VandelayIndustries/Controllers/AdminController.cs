@@ -19,7 +19,7 @@ namespace VandelayIndustries.Controllers
         {
             ViewBag.UpperMessage = "CSV Upload";
 
-            var model = new AdminIndexPageViewModel();
+            var model = new AdminIndexPageViewModel(db);
             model.Transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller).Include(t => t.Items).ToList();
             return View(model);
         }
@@ -32,7 +32,7 @@ namespace VandelayIndustries.Controllers
                 ViewBag.Message = ReadFile(data.File);
             }
 
-            var model = new AdminIndexPageViewModel();
+            var model = new AdminIndexPageViewModel(db);
             model.Transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller).Include(t => t.Items).ToList();
 
             return View(model);
