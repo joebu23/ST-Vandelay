@@ -96,10 +96,10 @@ namespace VandelayIndustries.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.BuyerId = new SelectList(db.Buyers, "Id", "Name", transaction.BuyerId);
-            ViewBag.SalesPersonId = new SelectList(db.SalesPersons, "Id", "Name", transaction.SalesPersonId);
-            ViewBag.SellerId = new SelectList(db.Sellers, "Id", "Name", transaction.SellerId);
-            ViewBag.Items = new SelectList(db.Items, "Id", "Description");
+            ViewBag.BuyerId = new SelectList(db.Buyers, "Id", "Name", transaction.Buyer.Id);
+            ViewBag.SalesPersonId = new SelectList(db.SalesPersons, "Id", "Name", transaction.SalesPerson.Id);
+            ViewBag.SellerId = new SelectList(db.Sellers, "Id", "Name", transaction.Seller.Id);
+            ViewBag.ItemId = new SelectList(db.Items, "Id", "Description");
 
             var selectedItems = new List<Item>();
 

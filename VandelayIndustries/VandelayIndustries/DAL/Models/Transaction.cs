@@ -24,17 +24,14 @@ namespace VandelayIndustries.DAL.Models
 
         [Required]
         public virtual Buyer Buyer { get; set; }
-        public int BuyerId { get; set; }
 
         [Required]
         public virtual Seller Seller { get; set; }
-        public int SellerId { get; set; }
 
         [Required]
         public ICollection<Item> Items { get; set; }
 
         [Required]
         public virtual SalesPerson SalesPerson { get; set; }
-        public int SalesPersonId { get; set; }
     }
 }
