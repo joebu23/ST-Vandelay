@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Vadelay Industries</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script src="~/Scripts/app.js"></script>
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -42,5 +42,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/ju-1.11.4/jqc-1.12.3,dt-1.10.12,sc-1.4.2,se-1.2.0/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/u/ju-1.11.4/jqc-1.12.3,dt-1.10.12,sc-1.4.2,se-1.2.0/datatables.min.js"></script>
+    <script src="~/Scripts/app.js"></script>
 </body>
 </html>

@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using VandelayIndustries.DAL;
 using VandelayIndustries.DAL.Models;
 using VandelayIndustries.ViewModels;
+using System.Linq;
+using System.Data.Entity;
 
 namespace VandelayIndustries.Controllers
 {
@@ -15,20 +17,25 @@ namespace VandelayIndustries.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            ViewBag.Message = "CSV Upload";
-            return View();
+            ViewBag.UpperMessage = "CSV Upload";
+
+            var model = new AdminIndexPageViewModel();
+            model.Transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller).Include(t => t.Items).ToList();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Index(FileUploadViewModel datafile)
+        public ActionResult Index(AdminIndexPageViewModel data)
         {
-            if(datafile.File != null)
+            if(data.File != null)
             {
-                ViewBag.Message = ReadFile(datafile.File);
-                
+                ViewBag.Message = ReadFile(data.File);
             }
 
-            return View();
+            var model = new AdminIndexPageViewModel();
+            model.Transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller).Include(t => t.Items).ToList();
+
+            return View(model);
         }
 
         private string ReadFile(HttpPostedFileBase file)
@@ -80,6 +87,7 @@ namespace VandelayIndustries.Controllers
                                 Color = values[3],
                                 Weight = float.Parse(values[4])
                             };
+                            db.Items.Add(newItem);
                             break;
                         default:
                             break;
