@@ -42,6 +42,7 @@ namespace VandelayIndustries.Controllers
         }
 
         // GET: Transaction/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.BuyerId = new SelectList(db.Buyers, "Id", "Name");

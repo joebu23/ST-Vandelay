@@ -7,13 +7,13 @@ namespace VandelayIndustries.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ModelUpdate : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ModelUpdate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606092327328_ModelUpdate"; }
+            get { return "201606112117012_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

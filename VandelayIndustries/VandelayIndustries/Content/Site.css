@@ -22,3 +22,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.ui-widget-header {
+    border: 1px solid #bfbfbf;
+    background: #bfbfbf;
+}

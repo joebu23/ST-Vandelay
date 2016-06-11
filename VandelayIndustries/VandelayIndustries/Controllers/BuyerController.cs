@@ -37,6 +37,7 @@ namespace VandelayIndustries.Controllers
         }
 
         // GET: Buyer/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();

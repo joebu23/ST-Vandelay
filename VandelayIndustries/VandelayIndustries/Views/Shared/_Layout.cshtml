@@ -6,7 +6,7 @@
     <title>@ViewBag.Title - Vadelay Industries</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,7 +17,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Vandelay Industries", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="/"><img src="~/Content/Images/vandelayLogo.jpg" height="50px" /></a>
+                @*@Html.ActionLink("Vandelay Industries", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -26,6 +27,10 @@
                     <li>@Html.ActionLink("Buyers", "Index", "Buyer")</li>
                     <li>@Html.ActionLink("Sellers", "Index", "Seller")</li>
                     <li>@Html.ActionLink("Sales People", "Index", "SalesPerson")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Administrative Page", "Index", "Admin")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -45,5 +50,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/ju-1.11.4/jqc-1.12.3,dt-1.10.12,sc-1.4.2,se-1.2.0/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/u/ju-1.11.4/jqc-1.12.3,dt-1.10.12,sc-1.4.2,se-1.2.0/datatables.min.js"></script>
     <script src="~/Scripts/app.js"></script>
+    <style>
+        .ui-widget-header {
+            border: 1px solid #bfbfbf;
+            background: #bfbfbf;
+        }
+    </style>
 </body>
 </html>

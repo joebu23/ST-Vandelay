@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -49,6 +50,40 @@ namespace VandelayIndustries.ViewModels
                 });
                 return sales;
             }
+        }
+
+        public List<SalesPersonSales> SalesPersonSalesList
+        {
+            get
+            {
+                var returnList = new List<SalesPersonSales>();
+                var salesPersons = db.SalesPersons;
+
+                foreach (var person in salesPersons)
+                {
+                    var newPerson = new SalesPersonSales();
+                    newPerson.SalesPerson = person;
+
+                    newPerson.CommissionEarned = 0;
+
+                    var transactions = db.Transactions.Where(p => p.SalesPerson.Id == person.Id).ToList();
+                    foreach(var transaction in transactions)
+                    {
+                        newPerson.CommissionEarned += (transaction.TotalCharges * (person.Commission * 0.01m));
+                    }
+
+                    returnList.Add(newPerson);
+                }
+
+                return returnList;
+            }
+        }
+
+        public class SalesPersonSales
+        {
+            public SalesPerson SalesPerson { get; set; }
+
+            public decimal CommissionEarned { get; set; }
         }
 
         public IEnumerable<SelectListItem> Items

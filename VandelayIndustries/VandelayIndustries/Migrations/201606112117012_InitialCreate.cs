@@ -37,17 +37,17 @@ namespace VandelayIndustries.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Date = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        BuyerId = c.Int(nullable: false),
-                        SellerId = c.Int(nullable: false),
-                        SalesPersonId = c.Int(nullable: false),
+                        Buyer_Id = c.Int(nullable: false),
+                        SalesPerson_Id = c.Int(nullable: false),
+                        Seller_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Buyers", t => t.BuyerId, cascadeDelete: true)
-                .ForeignKey("dbo.SalesPersons", t => t.SalesPersonId, cascadeDelete: true)
-                .ForeignKey("dbo.Sellers", t => t.SellerId, cascadeDelete: true)
-                .Index(t => t.BuyerId)
-                .Index(t => t.SellerId)
-                .Index(t => t.SalesPersonId);
+                .ForeignKey("dbo.Buyers", t => t.Buyer_Id, cascadeDelete: true)
+                .ForeignKey("dbo.SalesPersons", t => t.SalesPerson_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Sellers", t => t.Seller_Id, cascadeDelete: true)
+                .Index(t => t.Buyer_Id)
+                .Index(t => t.SalesPerson_Id)
+                .Index(t => t.Seller_Id);
             
             CreateTable(
                 "dbo.SalesPersons",
@@ -88,16 +88,16 @@ namespace VandelayIndustries.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Transactions", "SellerId", "dbo.Sellers");
-            DropForeignKey("dbo.Transactions", "SalesPersonId", "dbo.SalesPersons");
+            DropForeignKey("dbo.Transactions", "Seller_Id", "dbo.Sellers");
+            DropForeignKey("dbo.Transactions", "SalesPerson_Id", "dbo.SalesPersons");
             DropForeignKey("dbo.TransactionItems", "Item_Id", "dbo.Items");
             DropForeignKey("dbo.TransactionItems", "Transaction_Id", "dbo.Transactions");
-            DropForeignKey("dbo.Transactions", "BuyerId", "dbo.Buyers");
+            DropForeignKey("dbo.Transactions", "Buyer_Id", "dbo.Buyers");
             DropIndex("dbo.TransactionItems", new[] { "Item_Id" });
             DropIndex("dbo.TransactionItems", new[] { "Transaction_Id" });
-            DropIndex("dbo.Transactions", new[] { "SalesPersonId" });
-            DropIndex("dbo.Transactions", new[] { "SellerId" });
-            DropIndex("dbo.Transactions", new[] { "BuyerId" });
+            DropIndex("dbo.Transactions", new[] { "Seller_Id" });
+            DropIndex("dbo.Transactions", new[] { "SalesPerson_Id" });
+            DropIndex("dbo.Transactions", new[] { "Buyer_Id" });
             DropTable("dbo.TransactionItems");
             DropTable("dbo.Sellers");
             DropTable("dbo.SalesPersons");

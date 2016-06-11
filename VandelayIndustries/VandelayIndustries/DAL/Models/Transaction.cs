@@ -34,6 +34,7 @@ namespace VandelayIndustries.DAL.Models
         [Required]
         public virtual SalesPerson SalesPerson { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public decimal TotalCharges
         {
             get
@@ -47,6 +48,7 @@ namespace VandelayIndustries.DAL.Models
             }
         }
 
+        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public float TotalWeight
         {
             get

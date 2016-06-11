@@ -7,9 +7,11 @@ using VandelayIndustries.DAL.Models;
 using VandelayIndustries.ViewModels;
 using System.Linq;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace VandelayIndustries.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private DataContext db = new DataContext();
@@ -27,7 +29,7 @@ namespace VandelayIndustries.Controllers
         [HttpPost]
         public ActionResult Index(AdminIndexPageViewModel data)
         {
-            if(data.File != null)
+            if (data.File != null)
             {
                 ViewBag.Message = ReadFile(data.File);
             }
@@ -35,7 +37,54 @@ namespace VandelayIndustries.Controllers
             var model = new AdminIndexPageViewModel(db);
             model.Transactions = db.Transactions.Include(t => t.Buyer).Include(t => t.SalesPerson).Include(t => t.Seller).Include(t => t.Items).ToList();
 
+
+
             return View(model);
+        }
+
+        [HttpPost]
+        public string FilterSalesCommissionTable(AdminPost data)
+        {
+            DateTime? low = null;
+            DateTime? high = null;
+
+            if (data.SalesPersonCommissionDateRangeLow != null)
+            {
+                low = Convert.ToDateTime(data.SalesPersonCommissionDateRangeLow);
+            }
+
+            if (data.SalesPersonCommissionDateRangeHigh != null)
+            {
+                high = Convert.ToDateTime(data.SalesPersonCommissionDateRangeHigh);
+            }
+
+            List<Transaction> transactions;
+            SalesPerson salesPerson;
+
+            // filter transactions down by sales person first
+            transactions = db.Transactions.Include(t => t.Items).Where(p => p.SalesPerson.Id == data.SalesPersonIdToGet).ToList();
+
+            // filter transactions by date if supplied
+            if (low != null)
+            {
+                transactions = transactions.Where(p => p.Date >= low).ToList();
+            }
+
+            if (high != null)
+            {
+                transactions = transactions.Where(p => p.Date <= high).ToList();
+            }
+
+            salesPerson = db.SalesPersons.Single(p => p.Id == data.SalesPersonIdToGet);
+
+            var totalCommission = 0m;
+            foreach (var transaction in transactions)
+            {
+                totalCommission += (transaction.TotalCharges * (salesPerson.Commission * 0.01m));
+            }
+
+            var returnData = @"<tr><td>" + salesPerson.Name + "</td><td>" + string.Format("{0:C}", totalCommission) + "</td></tr>";
+            return returnData;
         }
 
         private string ReadFile(HttpPostedFileBase file)
@@ -97,7 +146,8 @@ namespace VandelayIndustries.Controllers
                 db.SaveChanges();
                 return "Save Successful!";
 
-            } catch (Exception er)
+            }
+            catch (Exception er)
             {
                 return "Sorry, Upload Failed.";
             }
